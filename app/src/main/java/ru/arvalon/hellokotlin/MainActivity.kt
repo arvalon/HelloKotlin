@@ -14,6 +14,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import ru.arvalon.hellokotlin.model.Person
 
 class MainActivity : AppCompatActivity() {
 
@@ -48,6 +49,7 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
         foo()
+        bar()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -76,5 +78,11 @@ class MainActivity : AppCompatActivity() {
         val b = 2
         val c:Int
         c = 3
+    }
+
+    fun bar (){
+        val persons = listOf(Person("Alice"), Person("Bob", age = 29))
+        val oldest = persons.maxBy { it.age ?: 0 }
+        Log.d(foo,"Oldest: $oldest")
     }
 }
