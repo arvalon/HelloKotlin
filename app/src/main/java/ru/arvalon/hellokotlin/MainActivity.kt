@@ -18,7 +18,7 @@ import ru.arvalon.hellokotlin.model.Person
 
 class MainActivity : AppCompatActivity() {
 
-    val foo : String? = "kotlin.log";
+    val TAG : String? = "kotlin.log";
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        Log.d(foo, "onCreate "+sum(1,2)+" "+sum2(2,4));
+        Log.d(TAG, "onCreate "+sum(1,2)+" "+sum2(2,4))
         printSum(1,4)
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
@@ -50,6 +50,8 @@ class MainActivity : AppCompatActivity() {
 
         foo()
         bar()
+        Log.d(TAG,"max =  "+max(2,4))
+        Log.d(TAG,"min =  "+min(2,4))
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -70,8 +72,14 @@ class MainActivity : AppCompatActivity() {
     fun sum2(a: Int, b: Int) = a + b
 
     fun printSum(a: Int, b: Int): Unit{
-        Log.d(foo,""+a+b)
+        Log.d(TAG,""+a+b)
     }
+
+    fun max(a: Int, b: Int) : Int{
+        return if (a > b ) a else b
+    }
+
+    fun min(a: Int, b: Int) = if (a < b ) a else b
 
     fun foo(){
         val a: Int = 1
@@ -83,6 +91,6 @@ class MainActivity : AppCompatActivity() {
     fun bar (){
         val persons = listOf(Person("Alice"), Person("Bob", age = 29))
         val oldest = persons.maxBy { it.age ?: 0 }
-        Log.d(foo,"Oldest: $oldest")
+        Log.d(TAG,"Oldest: $oldest")
     }
 }
