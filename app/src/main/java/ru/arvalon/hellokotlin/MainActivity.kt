@@ -14,6 +14,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import ru.arvalon.hellokotlin.book.ch2.Color
 import ru.arvalon.hellokotlin.model.Person
 
 class MainActivity : AppCompatActivity() {
@@ -52,6 +53,7 @@ class MainActivity : AppCompatActivity() {
         bar()
         Log.d(TAG,"max =  "+max(2,4))
         Log.d(TAG,"min =  "+min(2,4))
+        foo2()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -92,5 +94,13 @@ class MainActivity : AppCompatActivity() {
         val persons = listOf(Person("Alice"), Person("Bob", age = 29))
         val oldest = persons.maxBy { it.age ?: 0 }
         Log.d(TAG,"Oldest: $oldest")
+    }
+
+    fun foo2(){
+        // use Color enum
+        Log.d(TAG,"Color.BLUE.rgb() = " + Color.BLUE.rgb())
+
+        Log.d(TAG, "Get Mnemonic RED = " + Color.RED.getMnemonic(Color.RED))
+        Log.d(TAG, "Get Mnemonic RED = " + Color.BLUE.getMnemonic(Color.RED))
     }
 }
