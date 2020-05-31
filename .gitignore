@@ -19,6 +19,7 @@
 /.idea/markdown-navigator-enh.xml
 /.idea/runConfigurations.xml
 /.idea/vcs.xml
+/.idea/jarRepositories.xml
 
 /build
 /captures
@@ -29,4 +30,3 @@ release/
 /keystore.properties
 .externalNativeBuild
 .DS_Store
-
