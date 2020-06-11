@@ -17,6 +17,8 @@ import androidx.appcompat.widget.Toolbar
 import ru.arvalon.hellokotlin.book.ch2.Color
 import ru.arvalon.hellokotlin.model.Person
 
+import ru.arvalon.hellokotlin.book.ch2.Color.*
+
 class MainActivity : AppCompatActivity() {
 
     val TAG : String? = "kotlin.log";
@@ -25,7 +27,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
+
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
@@ -33,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         printSum(1,4)
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
+
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
@@ -98,9 +103,18 @@ class MainActivity : AppCompatActivity() {
 
     fun foo2(){
         // use Color enum
-        Log.d(TAG,"Color.BLUE.rgb() = " + Color.BLUE.rgb())
+        Log.d(TAG,"Color.BLUE.rgb() = " + BLUE.rgb())
 
-        Log.d(TAG, "Get Mnemonic RED = " + Color.RED.getMnemonic(Color.RED))
-        Log.d(TAG, "Get Mnemonic RED = " + Color.BLUE.getMnemonic(Color.RED))
+        Log.d(TAG, "Get Mnemonic RED = " + RED.getMnemonic(RED))
+        Log.d(TAG, "Get Mnemonic RED = " + BLUE.getMnemonic(RED))
+
+        Log.d(TAG, "getWarmth: "+BLUE.getWarmth(RED))
+        Log.d(TAG, "getMyWarmth: "+BLUE.getMyWarmth(BLUE))
+
+        Log.d(TAG, "mix: "+RED.mix(YELLOW, BLUE))
+        //Log.d(TAG, "mix: "+RED.mix(BLUE, RED)) // Exception
+
+        Log.d(TAG, "mixOptimized: "+RED.mixOptimized(YELLOW, BLUE))
+
     }
 }
