@@ -14,14 +14,17 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import ru.arvalon.hellokotlin.book.ch2.Color
 import ru.arvalon.hellokotlin.model.Person
 
 import ru.arvalon.hellokotlin.book.ch2.Color.*
+import ru.arvalon.hellokotlin.book.ch2.Expr
+import ru.arvalon.hellokotlin.book.ch2.Expr.Num
+import ru.arvalon.hellokotlin.book.ch2.Expr.Sum
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
-    val TAG : String? = "kotlin.log";
+    val TAG : String? = "kotlin.log"
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
@@ -59,6 +62,15 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG,"max =  "+max(2,4))
         Log.d(TAG,"min =  "+min(2,4))
         foo2()
+
+        Log.d(TAG,"Eval = " + eval(Sum(Sum(Num(1), Num(2)), Num(4))))
+        Log.d(TAG,"WithLogging = " + evalWithLogging(Sum(Sum(Num(1), Num(2)), Num(4))))
+
+        whileLoops()
+
+        forLoops()
+
+        dictionaryIterators()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -96,12 +108,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun bar (){
+
         val persons = listOf(Person("Alice"), Person("Bob", age = 29))
         val oldest = persons.maxBy { it.age ?: 0 }
         Log.d(TAG,"Oldest: $oldest")
     }
 
     fun foo2(){
+
         // use Color enum
         Log.d(TAG,"Color.BLUE.rgb() = " + BLUE.rgb())
 
@@ -115,6 +129,105 @@ class MainActivity : AppCompatActivity() {
         //Log.d(TAG, "mix: "+RED.mix(BLUE, RED)) // Exception
 
         Log.d(TAG, "mixOptimized: "+RED.mixOptimized(YELLOW, BLUE))
+    }
 
+    fun eval (e: Expr) : Int {
+
+        if (e is Num){
+            val n = e as Num
+            return n.value
+        }
+
+        if (e is Sum){
+            return eval(e.left) + eval(e.right)
+        }
+
+        throw IllegalArgumentException("Unknow expression")
+    }
+
+    fun evalWithLogging(e: Expr): Int =
+
+        when (e) {
+
+            is Num -> {
+                Log.d(TAG, "num = ${e.value}")
+                e.value
+            }
+
+            is Sum -> {
+                val left = evalWithLogging(e.left)
+                val right = evalWithLogging(e.right)
+                Log.d(TAG, "sum $left + $right")
+                left + right
+            }
+
+            else -> throw IllegalArgumentException("Unknow expression")
+        }
+
+    fun whileLoops(){
+
+        var a = 0
+
+        while (a<10){
+            Log.d(TAG, "a = $a")
+            a++
+        }
+
+        do{
+            Log.d(TAG, "a = $a")
+            a--
+        }while (a > 0)
+    }
+
+    private fun forLoops() {
+
+        Log.d(TAG,"for loop increase")
+
+        for (i in 1..100) {
+            Log.d(TAG, fizzBuzz(i))
+        }
+
+        Log.d(TAG,"for loop decrease")
+
+        for (i in 100 downTo 1 step 2) {
+            Log.d(TAG, fizzBuzz(i))
+        }
+
+        Log.d(TAG,"for loop increase until")
+
+        for ( i in 1 until 10){
+            Log.d(TAG,"$i")
+        }
+    }
+
+    fun dictionaryIterators(){
+
+        Log.d(TAG, "ASCII Dictionary Iterator")
+
+        val binaryReps = TreeMap<Char, String>()
+
+        for (c in 'A'..'F'){
+            binaryReps[c] = Integer.toBinaryString(c.toInt())
+        }
+
+        for ((letter, binary) in binaryReps) {
+            Log.d(TAG, "$letter = $binary")
+        }
+
+        Log.d(TAG, "Number dictionary Iterator")
+
+        val list = arrayListOf("10","11","1001")
+
+        for ((index, element) in list.withIndex()) {
+            Log.d(TAG, "index $index : $element")
+        }
+    }
+
+    fun fizzBuzz(i : Int) = when {
+
+        i % 15 == 0 -> "FizzBuzz "
+        i % 5 == 0 -> "Fizz "
+        i % 3 == 0 -> "Buzz "
+        else -> "$i "
     }
 }
