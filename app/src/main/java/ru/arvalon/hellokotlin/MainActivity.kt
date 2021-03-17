@@ -110,7 +110,7 @@ class MainActivity : AppCompatActivity() {
     fun bar (){
 
         val persons = listOf(Person("Alice"), Person("Bob", age = 29))
-        val oldest = persons.maxBy { it.age ?: 0 }
+        val oldest = persons.maxByOrNull { it.age ?: 0 }
         Log.d(TAG,"Oldest: $oldest")
     }
 
