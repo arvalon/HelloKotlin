@@ -1,2 +1,2 @@
-Основы Kotlin'а  
-https://github.com/Kotlin/kotlin-in-action
+https://github.com/Kotlin/kotlin-in-action  
+![HelloKotlin](HelloKotlin.png)
