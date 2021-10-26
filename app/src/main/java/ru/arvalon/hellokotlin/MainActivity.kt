@@ -71,6 +71,8 @@ class MainActivity : AppCompatActivity() {
         forLoops()
 
         dictionaryIterators()
+
+        welcomeBack()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -219,7 +221,7 @@ class MainActivity : AppCompatActivity() {
         val list = arrayListOf("10","11","1001")
 
         for ((index, element) in list.withIndex()) {
-            Log.d(TAG, "index $index : $element")
+            Log.d(TAG, "index $index = $element")
         }
     }
 
@@ -229,5 +231,9 @@ class MainActivity : AppCompatActivity() {
         i % 5 == 0 -> "Fizz "
         i % 3 == 0 -> "Buzz "
         else -> "$i "
+    }
+
+    private fun welcomeBack() {
+        Log.d(TAG,"С возвращением!")
     }
 }
