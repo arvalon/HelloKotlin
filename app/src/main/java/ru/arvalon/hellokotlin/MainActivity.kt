@@ -20,6 +20,7 @@ import ru.arvalon.hellokotlin.book.ch2.Color.*
 import ru.arvalon.hellokotlin.book.ch2.Expr
 import ru.arvalon.hellokotlin.book.ch2.Expr.Num
 import ru.arvalon.hellokotlin.book.ch2.Expr.Sum
+import ru.arvalon.hellokotlin.book.ch2.Expr.Multipl
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -35,9 +36,6 @@ class MainActivity : AppCompatActivity() {
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-
-        Log.d(TAG, "onCreate "+sum(1,2)+" "+sum2(2,4))
-        printSum(1,4)
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
 
@@ -57,14 +55,19 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
+        // -----------------------------------------------------------------------------------------
+
+        Log.d(TAG, "onCreate "+sum(1,2)+" "+sum2(2,4))
+
+        printSum(1,4)
+
         foo()
         bar()
         Log.d(TAG,"max =  "+max(2,4))
         Log.d(TAG,"min =  "+min(2,4))
         foo2()
 
-        Log.d(TAG,"Eval = " + eval(Sum(Sum(Num(1), Num(2)), Num(4))))
-        Log.d(TAG,"WithLogging = " + evalWithLogging(Sum(Sum(Num(1), Num(2)), Num(4))))
+        markerInterface()
 
         whileLoops()
 
@@ -73,6 +76,8 @@ class MainActivity : AppCompatActivity() {
         dictionaryIterators()
 
         welcomeBack()
+
+        untilLoop()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -133,6 +138,14 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "mixOptimized: "+RED.mixOptimized(YELLOW, BLUE))
     }
 
+    private fun markerInterface() {
+
+        Log.d(TAG, "Eval = " + eval(Sum(Sum(Num(1), Num(2)), Num(4))))
+        Log.d(TAG, "EvalWithLogging = " + evalWithLogging(Sum(Sum(Num(1), Num(2)), Num(4))))
+        Log.d(TAG, "Multipl = " + eval(Multipl(Sum(Num(1), Num(2)), Num(4))))
+        Log.d(TAG, "MultiplWithLogging = " + evalWithLogging(Multipl(Sum(Num(1), Num(2)), Num(4))))
+    }
+
     fun eval (e: Expr) : Int {
 
         if (e is Num){
@@ -143,6 +156,8 @@ class MainActivity : AppCompatActivity() {
         if (e is Sum){
             return eval(e.left) + eval(e.right)
         }
+
+        if (e is Multipl) return eval(e.left) * eval(e.right)
 
         throw IllegalArgumentException("Unknow expression")
     }
@@ -163,43 +178,69 @@ class MainActivity : AppCompatActivity() {
                 left + right
             }
 
+            is Multipl -> {
+                val left = evalWithLogging(e.left)
+                val right = evalWithLogging(e.right)
+                Log.d(TAG, "multiple $left * $right")
+                left * right
+            }
+
             else -> throw IllegalArgumentException("Unknow expression")
         }
 
     fun whileLoops(){
 
+        val sb = StringBuilder()
+
         var a = 0
 
         while (a<10){
-            Log.d(TAG, "a = $a")
+            if (!sb.isEmpty()) sb.append(" ")
+            sb.append("a = $a")
             a++
         }
 
+        Log.d(TAG, "while loop "+sb)
+
+        sb.clear()
+
         do{
-            Log.d(TAG, "a = $a")
+            if (!sb.isEmpty()) sb.append(" ")
+            sb.append("a = $a")
             a--
         }while (a > 0)
+
+        Log.d(TAG, "do-while loop "+sb)
     }
 
     private fun forLoops() {
 
-        Log.d(TAG,"for loop increase")
+        val sb =  StringBuilder()
 
-        for (i in 1..100) {
-            Log.d(TAG, fizzBuzz(i))
+        for (i in 1..50) {
+            if (!sb.isEmpty()) sb.append(" ")
+            sb.append(fizzBuzz(i))
         }
 
-        Log.d(TAG,"for loop decrease")
+        Log.d(TAG, "for loop increase "+sb)
 
-        for (i in 100 downTo 1 step 2) {
-            Log.d(TAG, fizzBuzz(i))
+        sb.clear()
+
+        for (i in 50 downTo 1 step 2) {
+            if (!sb.isEmpty()) sb.append(" ")
+            sb.append(fizzBuzz(i))
         }
 
-        Log.d(TAG,"for loop increase until")
+        Log.d(TAG,"for loop decrease "+sb)
+
+        sb.clear()
 
         for ( i in 1 until 10){
-            Log.d(TAG,"$i")
+            if (!sb.isEmpty()) sb.append(" ")
+            sb.append("$i")
         }
+
+        Log.d(TAG,"for loop increase until "+sb)
     }
 
     fun dictionaryIterators(){
@@ -227,13 +268,25 @@ class MainActivity : AppCompatActivity() {
 
     fun fizzBuzz(i : Int) = when {
 
-        i % 15 == 0 -> "FizzBuzz "
-        i % 5 == 0 -> "Fizz "
-        i % 3 == 0 -> "Buzz "
-        else -> "$i "
+        i % 15 == 0 -> "FizzBuzz"
+        i % 5 == 0 -> "Fizz"
+        i % 3 == 0 -> "Buzz"
+        else -> "$i"
     }
 
     private fun welcomeBack() {
         Log.d(TAG,"С возвращением!")
+    }
+
+    private fun untilLoop() {
+
+        val sb =  StringBuilder()
+
+        for (a in -10 until 10){
+            if (!sb.isEmpty()) sb.append(" ")
+            sb.append(a)
+        }
+
+        Log.d(TAG, "untilLoop: "+sb)
     }
 }
