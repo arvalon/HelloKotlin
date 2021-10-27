@@ -25,7 +25,7 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
-    val TAG : String? = "kotlin.log"
+    companion object { val TAG = "kotlin.log" }
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
