@@ -78,6 +78,8 @@ class MainActivity : AppCompatActivity() {
         welcomeBack()
 
         untilLoop()
+
+        rangeTest()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -288,5 +290,24 @@ class MainActivity : AppCompatActivity() {
         }
 
         Log.d(TAG, "untilLoop: "+sb)
+    }
+
+    private fun rangeTest(){
+        Log.d(TAG,"q is letter: "+isLetter('q'))
+        Log.d(TAG,"q is not digit: "+isNotDigit('q'))
+        Log.d(TAG,"3 is letter: "+isLetter('3'))
+        Log.d(TAG,"3 is not digit: "+isNotDigit('3'))
+        Log.d(TAG,"recognize 387: "+recognize('3'))
+        Log.d(TAG,"recognize e: "+recognize('e'))
+
+    }
+
+    private fun isLetter(c: Char) = c in 'a'..'z' || c in 'A'..'Z'
+    private fun isNotDigit(c: Char) = c !in '0'..'9'
+
+    private fun recognize(c: Char) = when(c){
+        in '0'..'9' -> "It's a digest!"
+        in 'a'..'z', in 'A'..'Z' -> "It's a letter!"
+        else -> "I don't know"
     }
 }
