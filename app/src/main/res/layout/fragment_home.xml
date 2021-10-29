@@ -33,4 +33,11 @@
         android:text="Exception 2"
         app:layout_constraintTop_toBottomOf="@id/ex_bnt1"/>
 
+    <Button
+        android:id="@+id/count_bnt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Increace count"
+        app:layout_constraintTop_toBottomOf="@id/ex_bnt2"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

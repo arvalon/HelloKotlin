@@ -10,11 +10,12 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import ru.arvalon.hellokotlin.MainActivity
 import ru.arvalon.hellokotlin.MainActivity.Companion.TAG
 import ru.arvalon.hellokotlin.R
-import java.lang.IllegalArgumentException
+import ru.arvalon.hellokotlin.TAG2
 import java.lang.NumberFormatException
+
+var count = 0
 
 class HomeFragment : Fragment() {
 
@@ -46,6 +47,9 @@ class HomeFragment : Fragment() {
         val btn2:Button = root.findViewById(R.id.ex_bnt2)
         btn2.setOnClickListener({ parseNum("q")})
 
+        val btn3:Button = root.findViewById(R.id.count_bnt)
+        btn3.setOnClickListener({ increaceCount()})
+
         return root
     }
 
@@ -58,5 +62,9 @@ class HomeFragment : Fragment() {
             null
         }
         Log.d(TAG,"Parse num = "+num)
+    }
+
+    private fun increaceCount(){
+        Log.d(TAG2,"Count ${++count}")
     }
 }

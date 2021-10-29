@@ -21,7 +21,14 @@ import ru.arvalon.hellokotlin.book.ch2.Expr
 import ru.arvalon.hellokotlin.book.ch2.Expr.Num
 import ru.arvalon.hellokotlin.book.ch2.Expr.Sum
 import ru.arvalon.hellokotlin.book.ch2.Expr.Multipl
+import strings.join
+import strings.joinToString2
+import strings.joinToStringStart2
+import strings.lastChar2
+import strings.lastChar as last
 import java.util.*
+
+const val TAG2 = "kotlin.log"
 
 class MainActivity : AppCompatActivity() {
 
@@ -57,29 +64,38 @@ class MainActivity : AppCompatActivity() {
 
         // -----------------------------------------------------------------------------------------
 
-        Log.d(TAG, "onCreate "+sum(1,2)+" "+sum2(2,4))
+        //Log.d(TAG, "onCreate "+sum(1,2)+" "+sum2(2,4))
 
-        printSum(1,4)
+        //printSum(1,4)
 
-        foo()
-        bar()
-        Log.d(TAG,"max =  "+max(2,4))
-        Log.d(TAG,"min =  "+min(2,4))
-        foo2()
+        //foo()
+        //bar()
+        //Log.d(TAG,"max =  "+max(2,4))
+        //Log.d(TAG,"min =  "+min(2,4))
+        //foo2()
 
-        markerInterface()
+        //markerInterface()
 
-        whileLoops()
+        //whileLoops()
 
-        forLoops()
+        //forLoops()
 
-        dictionaryIterators()
+        //dictionaryIterators()
 
-        welcomeBack()
+        //welcomeBack()
 
-        untilLoop()
+        //untilLoop()
 
-        rangeTest()
+        //rangeTest()
+
+        //printSeparator("Collections")
+
+        //collections1()
+
+        //collections2()
+
+        stringsRegex()
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -91,6 +107,12 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    private fun printSeparator(name: String){
+
+        Log.d(TAG, " ")
+        Log.d(TAG, "----------------------------${name.uppercase()}--------------------------")
     }
 
     fun sum(a: Int, b: Int): Int{
@@ -309,5 +331,120 @@ class MainActivity : AppCompatActivity() {
         in '0'..'9' -> "It's a digest!"
         in 'a'..'z', in 'A'..'Z' -> "It's a letter!"
         else -> "I don't know"
+    }
+
+    private fun collections1(){
+        Log.d(TAG, " ")
+        Log.d(TAG, "Collections")
+        Log.d(TAG, "------------------------------------------------------------------------")
+        val set = hashSetOf(1,7,53)
+        val list = arrayListOf(1,5,7)
+        val map = hashMapOf(1 to "one", 7 to "seven", 53 to "fifty-three")
+
+        Log.d(TAG,set.javaClass.toString())
+        Log.d(TAG,list.javaClass.toString())
+        Log.d(TAG,map.javaClass.toString())
+
+        val strings = listOf("one", "two", "three")
+
+        Log.d(TAG, strings.last())
+
+        val numbers = setOf(1,4,5)
+        Log.d(TAG, "max "+numbers.maxOrNull())
+
+        val myList = listOf(1,2,3)
+        Log.d(TAG, myList.toString())
+
+        Log.d(TAG,joinToStringStart(list, "; ", "(", ")"))
+        Log.d(TAG,myList.joinToString1 (separator = "; ", prefix = "(", postfix = ")"))
+        Log.d(TAG,myList.joinToString1 (postfix = ";", prefix = "# "))
+        Log.d(TAG,myList.joinToString2 (postfix = ";", prefix = "--- "))
+        Log.d(TAG,joinToStringStart2 (list, "; ", "(", ")"))
+
+        Log.d(TAG, "This is my lastChar".last().toString())
+
+        Log.d(TAG, listOf("one","two","eight").join(" "))
+
+        Log.d(TAG, "This is my lastChar2".lastChar2.toString())
+
+        val sb =  StringBuilder("Hello!")
+        sb.last ='*'
+        Log.d(TAG,sb.toString())
+
+    }
+
+    fun <T> joinToStringStart(collection: Collection<T>, separator: String, prefix: String, postfix: String): String {
+
+        val result = StringBuilder(prefix)
+
+        for ((index, element) in collection.withIndex()) {
+            if (index > 0) result.append(separator)
+            result.append(element)
+        }
+
+        result.append(postfix)
+        return result.toString()
+    }
+
+    fun <T> Collection<T>.joinToString1(separator: String = ", ", prefix: String = "", postfix: String = ""): String {
+        val result = StringBuilder(prefix)
+
+        for ((index, element) in this.withIndex()) {
+            if (index > 0) result.append(separator)
+            result.append(element)
+        }
+
+        result.append(postfix)
+        return result.toString()
+    }
+
+    private fun collections2(){
+        spreadParams(arrayOf("qwe","asd","zxc"))
+
+        val myMap = mapOf(1 to "one", 7 to "seven", 53 to "fifty-three", 22.to("twenty-two"))
+
+        for ((int, value) in myMap) {
+            Log.d(TAG,"key $int value: $value")
+        }
+
+        val (number, name) = 1 to "one"
+
+        Log.d(TAG,"number = $number name = $name")
+    }
+
+    private fun spreadParams(args: Array<String>){
+        val list = listOf("args: ", *args)
+        Log.d(TAG, list.toString())
+    }
+
+    //private infix fun Any.to(other: Any) = Pair(this, other)
+
+    private fun stringsRegex(){
+        printSeparator("strings_Regex")
+
+        val str1 = "12.3455-6.A"
+
+        Log.d(TAG,"Regex1 ${str1.split("\\.|-".toRegex())}")
+        Log.d(TAG,"Regex2 ${str1.split("[.\\-]".toRegex())}")
+        Log.d(TAG, "Regex3 ${str1.split(".","-")}")
+        Log.d(TAG, "Regex4 ${str1.split('.','-')}")
+
+        val path = "C:/Program Files/XnViewMP/AddOn/Masks/Thanks to PhotoFiltre.txt"
+
+        parsePath(path)
+
+
+    }
+
+    private fun parsePath(path: String){
+
+        val directory = path.substringBeforeLast("/")
+        val fullName = path.substringAfterLast("/")
+
+        val fileName = fullName.substringBeforeLast(".")
+        val extension = fullName.substringAfterLast(".")
+
+        Log.d(TAG, "Full path: $path")
+        Log.d(TAG, "directory: $directory \nfullname: $fullName \nfilename: $fileName \nextension: $extension")
     }
 }
