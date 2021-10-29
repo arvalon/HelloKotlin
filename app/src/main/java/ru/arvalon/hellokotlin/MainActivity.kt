@@ -21,6 +21,7 @@ import ru.arvalon.hellokotlin.book.ch2.Expr
 import ru.arvalon.hellokotlin.book.ch2.Expr.Num
 import ru.arvalon.hellokotlin.book.ch2.Expr.Sum
 import ru.arvalon.hellokotlin.book.ch2.Expr.Multipl
+import ru.arvalon.hellokotlin.model.User
 import strings.join
 import strings.joinToString2
 import strings.joinToStringStart2
@@ -29,6 +30,10 @@ import strings.lastChar as last
 import java.util.*
 
 const val TAG2 = "kotlin.log"
+
+fun MyLog(msg: String){
+    Log.d(TAG2, msg)
+}
 
 class MainActivity : AppCompatActivity() {
 
@@ -94,7 +99,9 @@ class MainActivity : AppCompatActivity() {
 
         //collections2()
 
-        stringsRegex()
+        //stringsRegex()
+
+        localFunctions()
 
     }
 
@@ -114,6 +121,8 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, " ")
         Log.d(TAG, "----------------------------${name.uppercase()}--------------------------")
     }
+
+
 
     fun sum(a: Int, b: Int): Int{
         return a+b
@@ -430,9 +439,16 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "Regex4 ${str1.split('.','-')}")
 
         val path = "C:/Program Files/XnViewMP/AddOn/Masks/Thanks to PhotoFiltre.txt"
+        val path2 = """C:\Program Files\WinMerge\WinMergeU.exe"""
 
         parsePath(path)
+        parsePath(path2)
 
+        val kotlinLogo = """| //
+                   .|//
+                   .|/ \"""
+
+        Log.d(TAG, kotlinLogo.trimMargin())
 
     }
 
@@ -446,5 +462,36 @@ class MainActivity : AppCompatActivity() {
 
         Log.d(TAG, "Full path: $path")
         Log.d(TAG, "directory: $directory \nfullname: $fullName \nfilename: $fileName \nextension: $extension")
+    }
+
+    private fun localFunctions(){
+        printSeparator("local_functions")
+        val user1 = User(1,"Misha","Earth")
+        val user2 = User(2,"","Moon")
+
+        saveUser(user1)
+        saveUser(user2)
+    }
+
+    private fun saveUser(user: User){
+
+        /*fun validate(value: String, fieldName: String){
+            if (value.isEmpty()) MyLog("Can't create user ${user.id}: empty $fieldName") else MyLog("user ${user.id} ok")
+        }
+
+        validate(user.name, "Name")
+        validate(user.address, "Address")*/
+
+        user.validateBeforeSave()
+    }
+
+    private fun User.validateBeforeSave(){
+
+        fun validate(value: String, fieldName: String){
+            if (value.isEmpty()) MyLog("Can't create user $id: empty $fieldName") else MyLog("user $id $fieldName ok!")
+        }
+
+        validate(name, "Name")
+        validate(address, "Address")
     }
 }
