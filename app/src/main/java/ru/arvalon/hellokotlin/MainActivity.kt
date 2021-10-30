@@ -21,6 +21,7 @@ import ru.arvalon.hellokotlin.book.ch2.Expr
 import ru.arvalon.hellokotlin.book.ch2.Expr.Num
 import ru.arvalon.hellokotlin.book.ch2.Expr.Sum
 import ru.arvalon.hellokotlin.book.ch2.Expr.Multipl
+import ru.arvalon.hellokotlin.book.ch4.MyButton
 import ru.arvalon.hellokotlin.model.User
 import strings.join
 import strings.joinToString2
@@ -101,7 +102,9 @@ class MainActivity : AppCompatActivity() {
 
         //stringsRegex()
 
-        localFunctions()
+        //localFunctions()
+
+        classes()
 
     }
 
@@ -493,5 +496,15 @@ class MainActivity : AppCompatActivity() {
 
         validate(name, "Name")
         validate(address, "Address")
+    }
+
+    private fun classes (){
+        printSeparator("classes")
+
+        val myButton = MyButton()
+
+        myButton.click()
+        myButton.setFocus(true)
+        myButton.showOff()
     }
 }
