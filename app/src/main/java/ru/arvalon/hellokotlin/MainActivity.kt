@@ -21,7 +21,7 @@ import ru.arvalon.hellokotlin.book.ch2.Expr
 import ru.arvalon.hellokotlin.book.ch2.Expr.Num
 import ru.arvalon.hellokotlin.book.ch2.Expr.Sum
 import ru.arvalon.hellokotlin.book.ch2.Expr.Multipl
-import ru.arvalon.hellokotlin.book.ch4.MyButton
+import ru.arvalon.hellokotlin.book.ch4.*
 import ru.arvalon.hellokotlin.model.User
 import strings.join
 import strings.joinToString2
@@ -506,5 +506,16 @@ class MainActivity : AppCompatActivity() {
         myButton.click()
         myButton.setFocus(true)
         myButton.showOff()
+
+        myButton.setFocus(false)
+
+        val myAnim = MyAnimated()
+
+        val user2 = User2("user2","name1")
+        val user3 = User3("user3")
+
+        val user5 = User5("Alice")
+
+        Log.d(TAG2,"user ${user5.nickname} is Subscibed: ${user5.isSubscribed}")
     }
 }
