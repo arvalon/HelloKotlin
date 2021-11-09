@@ -517,5 +517,56 @@ class MainActivity : AppCompatActivity() {
         val user5 = User5("Alice")
 
         Log.d(TAG2,"user ${user5.nickname} is Subscibed: ${user5.isSubscribed}")
+
+        Log.d(TAG,PrivateUser("test@me.ru").nickname)
+        Log.d(TAG,FacebookUser(33,"test3@me.ru").nickname)
+
+        val user = User7("Alice")
+        user.address = "Bor"
+
+        val lenghtCounter  =LenghtCounter()
+        lenghtCounter.addWord("hello")
+        Log.d(TAG, "lenght counter ${lenghtCounter.counter}")
+
+        Log.d(TAG,Client("me", 110100).toString())
+
+        val client1 = Client("Alice",123)
+        val client2 = Client("Alice",123)
+
+        Log.d(TAG, "equals: ${client1 == client2}")
+
+        val collection = hashSetOf(client1)
+
+        Log.d(TAG, "Collection contains ${collection.contains(client2)}")
+
+        val dataClient1 = DataClient("Bob", 123)
+        val dataClient2 = DataClient("Bob", 123)
+
+        val collection2 = hashSetOf(dataClient1)
+
+        Log.d(TAG, "Collection2 contains ${collection2.contains(dataClient2)}")
+
+        val dataClient3 = dataClient1.copy(postalCode = 111222)
+
+        Log.d(TAG,"Copy result : $dataClient3")
+
+        val cset = CountingSet<Int>()
+        cset.addAll(listOf(1,1,3))
+        Log.d(TAG,"${cset.objectsAdded} objects were added, ${cset.size} remain")
+
+        Payroll.allEmployees.add(Person("Mikhail", 43))
+        Payroll.calculateSalary()
+
+        val persons = listOf(Person("Bob"), Person("Alice"))
+        Log.d(TAG,"Sorted ${persons.sortedWith(Person.NameComparator)}")
+
+        A.bar()
+
+        val subscribingUser = CompanionUser("Me")
+        val facebookUser = CompanionUser(33)
+
+        val subscribingUser2 = CompanionUser.newSubscribingUser("re@qw.ru")
+        val subscribingUser3 = CompanionUser.newFacebookUser(456)
+
     }
 }
