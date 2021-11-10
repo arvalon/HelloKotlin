@@ -22,6 +22,8 @@ import ru.arvalon.hellokotlin.book.ch2.Expr.Num
 import ru.arvalon.hellokotlin.book.ch2.Expr.Sum
 import ru.arvalon.hellokotlin.book.ch2.Expr.Multipl
 import ru.arvalon.hellokotlin.book.ch4.*
+import ru.arvalon.hellokotlin.book.h5.Book
+import ru.arvalon.hellokotlin.book.h5.MyPerson
 import ru.arvalon.hellokotlin.model.User
 import strings.join
 import strings.joinToString2
@@ -104,7 +106,9 @@ class MainActivity : AppCompatActivity() {
 
         //localFunctions()
 
-        classes()
+        //classes()
+
+        lambdas()
 
     }
 
@@ -569,4 +573,155 @@ class MainActivity : AppCompatActivity() {
         val subscribingUser3 = CompanionUser.newFacebookUser(456)
 
     }
+
+    fun lambdas(){
+        printSeparator("lambdas")
+
+        val people = listOf(MyPerson("Alice", 29), MyPerson("Bob", 31), MyPerson("Mike", 45))
+
+        Log.d(TAG, "Max ${people.maxByOrNull{ it.age }}")
+        //Log.d(TAG, "Max ${people.maxOfOrNull { Person2::age }}")
+
+        //people.maxBy({p: MyPerson -> p.age})
+        Log.d(TAG,"Max 2: ${people.maxByOrNull{ p: MyPerson -> p.age}}")
+
+        val names = people.joinToString(separator = " ", transform = {p: MyPerson -> p.name})
+
+        Log.d(TAG, names)
+
+        val names2 = people.joinToString(" ") {p: MyPerson -> p.name}
+
+        Log.d(TAG, names2)
+
+        val sum = {x: Int, y: Int ->
+            Log.d(TAG, "Computing $x ann $y ")
+            x + y
+        }
+
+        Log.d(TAG, "Sum =  ${sum(1,4)}")
+
+        val errors = listOf("403 Forbidden", "404 Not found")
+
+        printMessagesWithPrefix(errors, "Error")
+
+        val responses = listOf("200 OK", "418 I'm a teapot", "500 Internal Server Error")
+
+        printProblemCounts(responses)
+
+        run { ::salute }
+
+        val createPerson = ::MyPerson
+
+        val p = createPerson("Alice",29)
+
+        Log.d(TAG, p.toString())
+
+        val list = listOf(1,2,3,4,5,6,7)
+        Log.d(TAG, "Euclidean division ${list.filter { it % 2 == 0 }}")
+
+        val doubleList = list.map { it*it }
+        Log.d(TAG, "Double list $doubleList")
+
+        val myList = listOf(MyPerson("Alice", 34),MyPerson("Mike", 22),MyPerson("Lena", 22),MyPerson("Bob", 18))
+
+        val maxAge = people.maxByOrNull ( MyPerson::age )?.age
+        val myList2 = people.filter { it.age == maxAge }
+
+        Log.d(TAG, "Max age $myList2")
+
+        val canBeInClub27 = {p: MyPerson -> p.age < 27}
+
+        Log.d(TAG, "Club27 ${myList.all(canBeInClub27)}")
+        Log.d(TAG, "Club27 ${myList.any(canBeInClub27)}")
+
+        val groupCollection = myList.groupBy { it.age } // LinkedHashMap
+
+        //Log.d(TAG, "Collection type ${groupCollection::class.java.typeName}") // Mis SDK 26
+        Log.d(TAG, "Group by age ${groupCollection}")
+
+        val books = listOf(
+            Book("Thursday Next", listOf("Jasper Fforde")),
+            Book("Mort", listOf("Terry Pratchett")),
+            Book("Good Omens", listOf("Terry Pratchett", "Neil Gaiman")))
+
+        val foo = books.flatMap { it.autors }.toSet()
+
+        Log.d(TAG, "Autors "+foo)
+
+        val seq1 = myList.asSequence().map( MyPerson::name ).filter { it.startsWith("A") }.toList()
+        Log.d(TAG,"Starts with A $seq1")
+
+        val naturalNumbers = generateSequence(0){it+1}
+        val numbersTo100 = naturalNumbers.takeWhile {  it <= 100 }
+
+        Log.d(TAG, "Sum 0..100 ${numbersTo100.sum()}")
+
+        Log.d(TAG, alphabet())
+        Log.d(TAG, alphabet2())
+        Log.d(TAG, "apply ${alphabet3()}")
+        Log.d(TAG, alphabet4())
+
+    }
+
+    fun printMessagesWithPrefix( messages: Collection<String>, prefix: String){
+
+        messages.forEach{ Log.d(TAG, "$prefix $it") }
+    }
+
+    fun printProblemCounts(responses: Collection<String>) {
+
+        var clientErrors = 0
+        var serverErrors = 0
+
+        responses.forEach {
+            if (it.startsWith("4")) {
+                clientErrors++
+            } else if (it.startsWith("5")) {
+                serverErrors++
+            }
+        }
+
+        Log.d(TAG, "$clientErrors client errors, $serverErrors server errors")
+    }
+
+    fun salute() = Log.d(TAG, "Salute!")
+
+    fun alphabet(): String{
+
+        val sb = StringBuilder()
+
+        return with(sb){
+
+            for (letter in 'A'..'Z') {
+                //this.append(letter)
+                append(letter)
+            }
+            append("\nNow I know the alphabet!")
+            //this.toString()
+            toString()
+        }
+    }
+
+    fun alphabet2() = with(StringBuilder()) {
+
+        for (letter in 'A'..'Z') {
+            append(letter)
+        }
+        append("\nNow I know the alphabet!")
+        toString()
+    }
+
+    fun alphabet3() = StringBuilder().apply {
+
+        for (letter in 'A'..'Z') {
+            append(letter)
+        }
+        append("\nNow I know the alphabet!")
+    }
+
+    fun alphabet4() = buildString {
+        for (c in 'A'..'Z') {
+            append(c)
+        }
+    append(" END")}
 }
