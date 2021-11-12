@@ -22,8 +22,9 @@ import ru.arvalon.hellokotlin.book.ch2.Expr.Num
 import ru.arvalon.hellokotlin.book.ch2.Expr.Sum
 import ru.arvalon.hellokotlin.book.ch2.Expr.Multipl
 import ru.arvalon.hellokotlin.book.ch4.*
-import ru.arvalon.hellokotlin.book.h5.Book
-import ru.arvalon.hellokotlin.book.h5.MyPerson
+import ru.arvalon.hellokotlin.book.ch5.Book
+import ru.arvalon.hellokotlin.book.ch5.MyPerson
+import ru.arvalon.hellokotlin.book.ch6.*
 import ru.arvalon.hellokotlin.model.User
 import strings.join
 import strings.joinToString2
@@ -108,7 +109,9 @@ class MainActivity : AppCompatActivity() {
 
         //classes()
 
-        lambdas()
+        //lambdas()
+
+        TypeSystem()
 
     }
 
@@ -724,4 +727,153 @@ class MainActivity : AppCompatActivity() {
             append(c)
         }
     append(" END")}
+
+    fun TypeSystem(){
+        printSeparator("typesystem")
+
+        strLenSafe(null)
+
+        val ceo = Employee("Bob", null)
+        val developer = Employee("Mike", ceo)
+
+        Log.d(TAG,"Dev CEO ${managerName(developer)}")
+        Log.d(TAG,"CEO CEO ${managerName(ceo)}")
+
+        val address = Address("Elsestr. 47", 80687, "Munich", "Germany")
+        val jetbrains = Company("JetBrains", address)
+        val person = Person6("Dmitry", jetbrains)
+
+        printShippingLabel(person)
+        //printShippingLabel(Person6("Alexey", null))
+
+        val p1 = Person6_1("Dmitry", "Jemerov")
+        val p2 = Person6_1("Dmitry", "Jemerov")
+
+        Log.d(TAG, "p1 p1 ${p1 == p2}")
+        Log.d(TAG, "42 ${p1.equals(42)}")
+
+        ignoreNulls("qqq")
+        //ignoreNulls(null)
+
+        var email: String? = "yole@ya.ru"
+
+        email?.let { sendEmailTo(it) }
+
+        email = null
+        email?.let { sendEmailTo(it) }
+
+        verifyUserInput(" ")
+        verifyUserInput(null)
+
+        printHashCode(null)
+        printHashCode("str")
+
+        showProgress(146)
+
+        val answer: Any = 42
+
+        val collection1 = readNumbers()
+
+        Log.d(TAG, "list $collection1}")
+
+        addValidNumbers(collection1)
+    }
+
+    fun managerName(employee: Employee): String? = employee.manager?.name
+
+    fun strLenSafe(s: String?): Int = if (s != null) s.length else 0
+
+    fun strLenSafe2(s: String?) = s?.length
+
+    fun elvisFoo(s: String?) {
+        val t: String = s ?: ""
+    }
+
+    fun strLenSafe3(s: String?) = s?.length ?: 0
+
+    fun printShippingLabel(person: Person6){
+        val address = person.company?.address ?: throw IllegalArgumentException("No address")
+        with(address){
+            Log.d(TAG, streetAddress)
+            Log.d(TAG, "$zipCode $city $country")
+        }
+    }
+
+    fun ignoreNulls(s: String?){
+        val sNotNull: String = s!!
+        Log.d(TAG,"lenght ${sNotNull.length}")
+    }
+
+    fun sendEmailTo(email: String) {
+        Log.d(TAG,"Sending email to $email")
+    }
+
+    fun verifyUserInput(input: String?) {
+        if (input.isNullOrBlank()) {
+            Log.d(TAG,"Please fill in the required fields")
+        }
+    }
+
+    fun <T> printHashCode(t: T) {
+        Log.d(TAG,t?.hashCode().toString())
+    }
+
+    fun <T: Any> printNotNullHashCode(t: T) {
+        Log.d(TAG,t.hashCode().toString())
+    }
+
+    fun showProgress(progress: Int) {
+        val percent = progress.coerceIn(0, 100)
+        Log.d(TAG,"We're ${percent}% done!")
+    }
+
+    fun readNumbers(): List<Int?> {
+
+        val numbers = intArrayOf(1,2,3,4,5,6)
+
+        val numbers2 = intArrayOf(8,9,10,11,12,13,14)
+
+        val result = ArrayList<Int?>()
+
+        for (num in numbers) {
+            try {
+                val number = num
+                result.add(number)
+            }
+            catch(e: NumberFormatException) {
+                result.add(null)
+            }
+        }
+
+        result.add(null)
+
+        for (num in numbers2) {
+            try {
+                val number = num
+                result.add(number)
+            }
+            catch(e: NumberFormatException) {
+                result.add(null)
+            }
+        }
+
+        result.add(null)
+
+        return result
+    }
+
+    fun addValidNumbers(numbers: List<Int?>) {
+
+        var sumOfValidNumbers = 0
+        var invalidNumbers = 0
+        for (number in numbers) {
+            if (number != null) {
+                sumOfValidNumbers += number
+            } else {
+                invalidNumbers++
+            }
+        }
+        Log.d(TAG,"Sum of valid numbers $sumOfValidNumbers")
+        Log.d(TAG,"Invalid numbers $invalidNumbers")
+    }
 }
