@@ -777,6 +777,21 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "list $collection1}")
 
         addValidNumbers(collection1)
+        addValidNumbers2(collection1)
+
+        val source: Collection<Int> = arrayListOf(3,5,7)
+
+        val target: MutableCollection<Int> = arrayListOf(1)
+
+        copyElements(source, target)
+
+        Log.d(TAG, "Mutable collection: "+target)
+
+        val letters = Array(26) {i -> ('a'+i).toString()} // не так как в книге
+        Log.d(TAG, letters.joinToString { "" })
+
+        val strings = listOf("a", "b", "c")
+        Log.d(TAG, "%s/%s/%s".format(*strings.toTypedArray()))
     }
 
     fun managerName(employee: Employee): String? = employee.manager?.name
@@ -827,6 +842,9 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG,"We're ${percent}% done!")
     }
 
+    /**
+     * Test description
+     */
     fun readNumbers(): List<Int?> {
 
         val numbers = intArrayOf(1,2,3,4,5,6)
@@ -862,6 +880,10 @@ class MainActivity : AppCompatActivity() {
         return result
     }
 
+    /**
+     * Посчитать все корректные и не корректные Int'ы
+     * @param numbers входящая коллекция
+     */
     fun addValidNumbers(numbers: List<Int?>) {
 
         var sumOfValidNumbers = 0
@@ -875,5 +897,17 @@ class MainActivity : AppCompatActivity() {
         }
         Log.d(TAG,"Sum of valid numbers $sumOfValidNumbers")
         Log.d(TAG,"Invalid numbers $invalidNumbers")
+    }
+
+    fun addValidNumbers2(numbers: List<Int?>){
+        val validNumbers = numbers.filterNotNull()
+        Log.d(TAG,"Sum of valid numbers ${validNumbers.sum()}")
+        Log.d(TAG,"Invalid numbers ${numbers.size - validNumbers.size}")
+    }
+
+    fun <T> copyElements(source: Collection<T>, target: MutableCollection<T>){
+        for (i in source) {
+            target.add(i)
+        }
     }
 }
