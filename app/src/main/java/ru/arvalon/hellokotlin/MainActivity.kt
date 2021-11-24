@@ -14,6 +14,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import kotlinx.coroutines.*
 import ru.arvalon.hellokotlin.model.Person
 
 import ru.arvalon.hellokotlin.book.ch2.Color.*
@@ -111,8 +112,25 @@ class MainActivity : AppCompatActivity() {
 
         //lambdas()
 
-        TypeSystem()
+        //TypeSystem()
 
+        //coroutines()
+
+        //coroutines2()
+
+        //coroutines3()
+
+        //coroutines4()
+
+        //coroutines5()
+
+        //coroutines6()
+
+        //coroutines7()
+
+        coroutines8()
+
+        //coroutines9()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -909,5 +927,117 @@ class MainActivity : AppCompatActivity() {
         for (i in source) {
             target.add(i)
         }
+    }
+
+    fun coroutines(){
+        printSeparator("Coroutines")
+
+        GlobalScope.launch { // запуск новой сопрограммы в фоне
+            delay(1000L) // неблокирующая задержка на 1 секунду
+            Log.d(TAG,"World!") // вывод результата после задержки
+        }
+        Log.d(TAG,"Hello,") // пока сопрограмма проводит вычисления, основной поток продолжает свою работу
+        Thread.sleep(1500L)
+        Log.d(TAG,"End")
+    }
+
+    fun coroutines2() {
+        GlobalScope.launch { // запуск новой сопрограммы в фоне
+            delay(1000L)
+            Log.d(TAG,"World!")
+        }
+        Log.d(TAG,"Hello,") // основной поток продолжает свою работу
+        runBlocking {     // но это выражение блокирует основной поток
+            delay(2000L)  // на 2 секунды
+        }
+        Log.d(TAG,"End")
+    }
+
+    fun coroutines3() = runBlocking { // запуск основной сопрограммы
+        GlobalScope.launch { // запуск новой сопрограммы в фоне
+            delay(1000L)
+            println("World!!")
+        }
+        println("HellO,") // основная сопрограмма продолжает свою работу
+        delay(2000L)      // задержка на 2 секунды
+        println("END")
+    }
+
+    fun coroutines4() = runBlocking {
+        val job = GlobalScope.launch { // запуск новой сопрограммы с сохранением ссылки на нее в Job
+            delay(1000L)
+            println("World_!")
+        }
+        println("Hello,")
+        job.join() // ждем завершения вложенной сопрограммы
+        println("END")
+    }
+
+    fun coroutines5() = runBlocking { // this: CoroutineScope
+        launch { // запуск сопрограммы в области видимости runBlocking
+            delay(1000L)
+            println("World!!")
+        }
+        println("Hello,")
+    }
+
+    fun coroutines6() = runBlocking { // this: CoroutineScope
+        launch {
+            delay(200L)
+            println("Task from runBlocking")
+        }
+
+        coroutineScope { // Создание coroutine scope
+            launch {
+                delay(500L)
+                println("Task from nested launch")
+            }
+
+            delay(100L)
+            println("Task from coroutine scope") // Эта строка будет выведена перед вложенным launch
+        }
+
+        println("Coroutine scope is over") // Эта строка не будет выведена пока не выполнится вложенный launch
+    }
+
+    fun coroutines7() = runBlocking {
+        launch { doWorld() }
+        println("Hello,")
+    }
+
+    // это ваша первая функция приостановки
+    suspend fun doWorld() {
+        delay(1000L)
+        println("WoRld!")
+    }
+
+    fun coroutines8() = runBlocking {
+        (0..10)
+        IntRange(0, 100).forEach {
+            launch(Dispatchers.IO) {
+                delay(10L*it)
+                println(it)
+            }
+        }
+
+        /*repeat(100) { // запуск большого количества сопрограмм
+            launch(Dispatchers.IO) {
+                delay(1000L)
+                println(".")
+                Log.d(TAG,"q")
+            }
+        }*/
+    }
+
+    fun coroutines9() = runBlocking {
+        GlobalScope.launch {
+            repeat(10) { i ->
+                println("I'm sleeping $i ...")
+                delay(500L)
+            }
+            println("launch END")
+        }
+        delay(1300L) // выход после некоторой задержки
+        println("END")
     }
 }
