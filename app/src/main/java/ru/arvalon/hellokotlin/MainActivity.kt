@@ -96,6 +96,8 @@ class MainActivity : AppCompatActivity() {
 
         //untilLoop()
 
+        //breaks()
+
         //rangeTest()
 
         //printSeparator("Collections")
@@ -128,7 +130,7 @@ class MainActivity : AppCompatActivity() {
 
         //coroutines7()
 
-        coroutines8()
+        //coroutines8()
 
         //coroutines9()
     }
@@ -349,6 +351,16 @@ class MainActivity : AppCompatActivity() {
         }
 
         Log.d(TAG, "untilLoop: "+sb)
+    }
+
+    private fun breaks() {
+        run loop@{
+            listOf(1, 2, 3, 4, 5).forEach {
+                if (it == 3) return@loop // non-local return from the lambda passed to run
+                Log.d(TAG, it.toString())
+            }
+        }
+        Log.d(TAG," done with nested loop")
     }
 
     private fun rangeTest(){
