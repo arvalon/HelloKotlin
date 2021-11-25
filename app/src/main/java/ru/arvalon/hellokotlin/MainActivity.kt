@@ -26,6 +26,10 @@ import ru.arvalon.hellokotlin.book.ch4.*
 import ru.arvalon.hellokotlin.book.ch5.Book
 import ru.arvalon.hellokotlin.book.ch5.MyPerson
 import ru.arvalon.hellokotlin.book.ch6.*
+import ru.arvalon.hellokotlin.book.ch7.Point
+import ru.arvalon.hellokotlin.book.ch7.Point2
+import ru.arvalon.hellokotlin.book.ch7.plus
+import ru.arvalon.hellokotlin.book.ch7.times
 import ru.arvalon.hellokotlin.model.User
 import strings.join
 import strings.joinToString2
@@ -133,6 +137,8 @@ class MainActivity : AppCompatActivity() {
         //coroutines8()
 
         //coroutines9()
+
+        operatorOverloading()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -150,6 +156,7 @@ class MainActivity : AppCompatActivity() {
 
         Log.d(TAG, " ")
         Log.d(TAG, "----------------------------${name.uppercase()}--------------------------")
+        println( "----------------------------${name.uppercase()}--------------------------")
     }
 
 
@@ -1051,5 +1058,31 @@ class MainActivity : AppCompatActivity() {
         }
         delay(1300L) // выход после некоторой задержки
         println("END")
+    }
+
+    private fun operatorOverloading(){
+
+        printSeparator("operator overloading")
+
+        val p1 = Point(1,2)
+        val p2 = Point(3,4)
+        println(p1+p2)
+
+        val p3 = Point2(1,2)
+        val p4 = Point2(3,4)
+        println(p3+p4)
+
+        val p5 = Point(10,15)
+        println(p5 * 1.5)
+
+        println('a' * 3)
+
+        var p6 = Point(3,4)
+        p6 += Point(1,2)
+        println(p6)
+    }
+
+    operator fun Char.times(count: Int): String{
+        return toString().repeat(count)
     }
 }
