@@ -26,17 +26,17 @@ import ru.arvalon.hellokotlin.book.ch4.*
 import ru.arvalon.hellokotlin.book.ch5.Book
 import ru.arvalon.hellokotlin.book.ch5.MyPerson
 import ru.arvalon.hellokotlin.book.ch6.*
-import ru.arvalon.hellokotlin.book.ch7.Point
-import ru.arvalon.hellokotlin.book.ch7.Point2
-import ru.arvalon.hellokotlin.book.ch7.plus
-import ru.arvalon.hellokotlin.book.ch7.times
+import ru.arvalon.hellokotlin.book.ch7.*
 import ru.arvalon.hellokotlin.model.User
 import strings.join
 import strings.joinToString2
 import strings.joinToStringStart2
 import strings.lastChar2
+import java.math.BigDecimal
+import java.time.LocalDate
 import strings.lastChar as last
 import java.util.*
+import kotlin.collections.ArrayList
 
 const val TAG2 = "kotlin.log"
 
@@ -1080,9 +1080,110 @@ class MainActivity : AppCompatActivity() {
         var p6 = Point(3,4)
         p6 += Point(1,2)
         println(p6)
+
+        val numbers  = ArrayList<Int>()
+        numbers+=42
+        println(numbers[0])
+        println(numbers)
+
+        val list = arrayListOf(1, 2)
+        list += 3
+        val newList = list + listOf(4, 5)
+        println(list)
+        println(newList)
+
+        val p = Point(10, 20)
+        println(-p)
+
+        var bd = BigDecimal.ZERO
+        println(bd++)
+        println(++bd)
+
+        println(Point(10, 20) == Point(10, 20))
+        println(Point(10, 20) != Point(5, 5))
+        println(null == Point(1, 2))
+
+        val p7 = PersonCh7("Alice", "Smith")
+        val p8 = PersonCh7("Bob", "Johnson")
+        println("PersonCh7 compare: ${p7 < p8}")
+
+        println("abc" < "bac")
+
+        val p9 = Point(10,22)
+        println(p9[1])
+        //println(p9[2])
+
+        val p10 = MutablePoint(10, 20)
+        p10[1] = 42
+        println("Mutable point $p10")
+
+        val rect = Rectangle(Point(10, 20), Point(50, 50))
+        println(Point(20, 30) in rect)
+        println(Point(5, 5) in rect)
+
+        val now = LocalDate.now()
+        val vacation = LocalDate.now() .. now.plusDays(10)
+        println("Отпуск удался: ${now.plusWeeks(1) in vacation}")
+
+        val n = 9
+        println(0..(n + 1))
+        (0..n).forEach { println(it) }
+
+
+        val newYear = LocalDate.ofYearDay(2017, 15)
+        val daysOff = newYear.minusDays(20)..newYear
+        for (dayOff in daysOff) { println(dayOff) }
+
+        val p11 = Point(30, 21)
+        val (x, y) = p11
+        println(x)
+        println(y)
+
+        val p12 = FooPoint(1,2)
+        val (a,b) = p12
+
+        println("$a and $b")
+
+        val (name, ext) = splitFilename("example.kt")
+        println(name)
+        println(ext)
+
+        val map = mapOf("Oracle" to "Java", "JetBrains" to "Kotlin")
+
+        printEntries(map)
     }
 
     operator fun Char.times(count: Int): String{
         return toString().repeat(count)
+    }
+
+    //⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡠⠔⠒⠒⠒⠒⠠⡀⠀⠀⠀⠀⠀
+    //⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠰⠀⠀⠀⠀⠀⠀⠀⠈⡀⠀⠀⠀⠀
+    //⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⢀⠂⢢⠒⢲⠀⠀⠀⠃⠀⠀⠀⠀
+    //⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡀⠀⠀⠀⠘⠤⢀⡀⢄⠀⠀⢀⠌⠀⠀⠀⠀⠀
+    //⠀⠀⠀⡖⠢⡀⠀⡴⠒⠲⠄⡖⠒⠀⠀⠀⠀⠋⠐⠠⠤⢆⠂⠣⠀⠀⠀⠀⠀⠀
+    //⠀⠀⠀⣧⠴⢣⢸⠀⠀⠀⠀⣇⣀⠀⠀⠀⠀⡀⠀⠀⡀⠈⡄⠇⠆⠀⠀⠀⠀⠀
+    //⠀⠀⠀⠧⠤⠞⠀⠳⠤⠴⠂⠧⠤⠤⠤⠤⠤⠧⠴⠤⠤⠤⠿⠤⠤⠤⠄⠀⠀⠀
+    //⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    //⠀⠀⠀⡴⠚⠓⠆⢀⣿⠀⢠⠖⠛⠲⡄⠰⡀⡇⡴⢸⣀⣸⡇⡴⠚⠓⢦⠀⠀⠀
+    //⠀⠀⠀⡇⠀⠀⠀⢸⠀⡇⢸⠀⠀⠀⡇⢀⡜⡿⡄⢸⠀⢸⡇⡇⠀⠀⢸⠇⠀⠀
+    //⠀⠀⠀⠙⠒⠒⠃⠏⠀⠡⠈⠓⠖⠚⠀⠚⠀⠇⠘⠺⠀⠘⠇⠘⠒⠖⠋⠀⠀⠀
+    // ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    operator fun ClosedRange<LocalDate>.iterator(): Iterator<LocalDate> =
+        object : Iterator<LocalDate> {
+            var current = start
+
+            override fun hasNext() =
+                current <= endInclusive
+
+            override fun next() = current.apply {
+                current = plusDays(1)
+            }
+        }
+
+    fun printEntries(map: Map<String, String>){
+        for ((key, value) in map) {
+            println("$key -> $value")
+        }
     }
 }
