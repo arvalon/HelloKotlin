@@ -138,7 +138,9 @@ class MainActivity : AppCompatActivity() {
 
         //coroutines9()
 
-        operatorOverloading()
+        //operatorOverloading()
+
+        lazyInitialization()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -1190,5 +1192,14 @@ class MainActivity : AppCompatActivity() {
         for ((key, value) in map) {
             println("$key -> $value")
         }
+    }
+
+    fun lazyInitialization(){
+        printSeparator("lazy initialization")
+
+        val p = PersonCh7("Alice", "Smith")
+        //p.emails
+        p.emails2
+        p.emails2
     }
 }
