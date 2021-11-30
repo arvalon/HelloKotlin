@@ -1243,5 +1243,27 @@ class MainActivity : AppCompatActivity() {
 
         p5.age = 37
         p5.salary = 2200
+
+        // Правило трансляции делегированных свойств
+
+        val p6 = PersonTrans()
+
+        val data = mapOf("name" to "Dmitry", "company" to "JetBrains")
+
+        for ((attrName, value) in data)
+            p6.setAttribute(attrName, value)
+
+        println(p6.name)
+
+        // Правило трансляции делегированных свойств
+
+        val p7 = PersonTrans2()
+
+        val data2 = mapOf("name" to "Mikhail", "company" to "JetBrains")
+
+        for ((attrName, value) in data2)
+            p7.setAttribute(attrName, value)
+
+        println(p7.name)
     }
 }
