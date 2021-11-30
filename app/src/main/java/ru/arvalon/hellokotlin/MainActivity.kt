@@ -32,6 +32,7 @@ import strings.join
 import strings.joinToString2
 import strings.joinToStringStart2
 import strings.lastChar2
+import java.beans.PropertyChangeListener
 import java.math.BigDecimal
 import java.time.LocalDate
 import strings.lastChar as last
@@ -1201,5 +1202,46 @@ class MainActivity : AppCompatActivity() {
         //p.emails
         p.emails2
         p.emails2
+
+        // Делегирование свойств
+        val p2 = PersonProp("Dmitry", 34, 2000)
+
+        p2.addPropertyChangeListener { event ->
+            println("Property ${event.propertyName} changed from ${event.oldValue} to ${event.newValue}")
+        }
+
+        p2.age = 35
+        p2.salary = 2100
+
+        // Делегирование свойств с классом ObservableProperty
+        val p3 = PersonProp2("Dmitry", 34, 2000)
+
+        p3.addPropertyChangeListener { event ->
+            println("Property ${event.propertyName} changed from ${event.oldValue} to ${event.newValue}")
+        }
+        p3.age = 35
+        p3.salary = 2100
+
+        // делегирование свойств с классом ObservableProperty2 и PersonProp3
+
+        val p4 = PersonProp3("Dmitry", 34, 2000)
+
+        p4.addPropertyChangeListener { event ->
+            println("Property ${event.propertyName} changed from ${event.oldValue} to ${event.newValue}")
+        }
+
+        p4.age = 35
+        p4.salary = 2100
+
+        //  делегирование свойств с классом PersonProp4 и kotlin.properties.Delegates observable
+
+        val p5 = PersonProp4("Dmitry", 34, 2000)
+
+        p5.addPropertyChangeListener { event ->
+            println("Property ${event.propertyName} changed from ${event.oldValue} to ${event.newValue}")
+        }
+
+        p5.age = 37
+        p5.salary = 2200
     }
 }
