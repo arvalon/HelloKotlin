@@ -27,12 +27,14 @@ import ru.arvalon.hellokotlin.book.ch5.Book
 import ru.arvalon.hellokotlin.book.ch5.MyPerson
 import ru.arvalon.hellokotlin.book.ch6.*
 import ru.arvalon.hellokotlin.book.ch7.*
+import ru.arvalon.hellokotlin.book.ch8.joinToString4
+import ru.arvalon.hellokotlin.book.ch8.joinToString5
+import ru.arvalon.hellokotlin.book.ch8.twoAndThree
 import ru.arvalon.hellokotlin.model.User
 import strings.join
 import strings.joinToString2
 import strings.joinToStringStart2
 import strings.lastChar2
-import java.beans.PropertyChangeListener
 import java.math.BigDecimal
 import java.time.LocalDate
 import strings.lastChar as last
@@ -141,7 +143,9 @@ class MainActivity : AppCompatActivity() {
 
         //operatorOverloading()
 
-        lazyInitialization()
+        //lazyInitialization()
+
+        highOrderFunctionsAndLambdasChapter8()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -1265,5 +1269,26 @@ class MainActivity : AppCompatActivity() {
             p7.setAttribute(attrName, value)
 
         println(p7.name)
+    }
+
+    fun highOrderFunctionsAndLambdasChapter8(){
+        printSeparator("High-order functions and lambdas")
+
+        twoAndThree{a, b -> a + b}
+        twoAndThree{a, b -> a * b}
+
+        println("ab1c".filter { it in 'a'..'z' })
+
+        val letters = listOf("Alpha", "Beta")
+        println(letters.joinToString4())
+
+        println(letters.joinToString4 { it.lowercase() })
+
+        println(letters.joinToString4(separator = "! ", postfix = "! ", transform = { it.uppercase() }))
+
+        val letters2 = listOf("Alpha", "Beta", "Gamma")
+        println(letters2.joinToString5())
+        println(letters2.joinToString5 { it.lowercase() })
+        println(letters2.joinToString5(separator = "! ", postfix = "! ", transform = { it.uppercase() }))
     }
 }
