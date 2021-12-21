@@ -27,19 +27,20 @@ import ru.arvalon.hellokotlin.book.ch5.Book
 import ru.arvalon.hellokotlin.book.ch5.MyPerson
 import ru.arvalon.hellokotlin.book.ch6.*
 import ru.arvalon.hellokotlin.book.ch7.*
-import ru.arvalon.hellokotlin.book.ch8.joinToString4
-import ru.arvalon.hellokotlin.book.ch8.joinToString5
-import ru.arvalon.hellokotlin.book.ch8.twoAndThree
+import ru.arvalon.hellokotlin.book.ch8.*
 import ru.arvalon.hellokotlin.model.User
 import strings.join
 import strings.joinToString2
 import strings.joinToStringStart2
 import strings.lastChar2
+import java.io.BufferedReader
+import java.io.FileReader
 import java.math.BigDecimal
 import java.time.LocalDate
 import strings.lastChar as last
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.text.filter
 
 const val TAG2 = "kotlin.log"
 
@@ -1290,5 +1291,108 @@ class MainActivity : AppCompatActivity() {
         println(letters2.joinToString5())
         println(letters2.joinToString5 { it.lowercase() })
         println(letters2.joinToString5(separator = "! ", postfix = "! ", transform = { it.uppercase() }))
+
+        val calculator = getShippingCostCalculator(Delivery.EXPEDITED)
+        println("Shipping ${calculator(Order(3))}")
+
+        val calculator2 = getShippingCostCalculator(Delivery.STANDARD)
+        println("Shipping ${calculator2(Order(2))}")
+
+        val contacts = listOf(
+            ContactPerson("Dmitry", "Jemerov", "123-4567"),
+            ContactPerson("Svetlana", "Isakova", null))
+
+        val contactListFilters = ContactListFilters()
+
+        with (contactListFilters) {
+            prefix = "Dm"
+            onlyWithPhoneNumber = true
+        }
+
+        println(contacts.filter(contactListFilters.getPredicate()))
+
+        val log = listOf(
+            SiteVisit("/", 34.0, OS.WINDOWS),
+            SiteVisit("/", 22.0, OS.MAC),
+            SiteVisit("/login", 12.0, OS.WINDOWS),
+            SiteVisit("/signup", 8.0, OS.IOS),
+            SiteVisit("/", 16.3, OS.ANDROID)
+        )
+
+        /*val averageWindowsDuration = log
+            .filter { it.os == OS.WINDOWS }
+            .map(SiteVisit::duration)
+            .average()*/
+
+        //println(averageWindowsDuration)
+
+        println(log.averageDurationFor(OS.WINDOWS))
+        println(log.averageDurationFor(OS.MAC))
+
+        val averageMobileDuration = log
+            .filter { it.os in setOf(OS.IOS, OS.ANDROID) }
+            .map(SiteVisit::duration)
+            .average()
+
+        println(averageMobileDuration)
+
+        println(log.averageDurationFor { it.os in setOf(OS.ANDROID, OS.IOS) })
+        println(log.averageDurationFor { it.os == OS.IOS && it.path == "/signup" })
+
+        //8.3.1
+        val people = listOf(SimplePerson("Alice", 29), SimplePerson("Bob",31))
+        lookForAlice(people)
+        lookForAlice2(people)
+        lookForAlice3(people)
+        lookForAlice4(people)
+        lookForAlice5(people)
+    }
+
+    fun List<SiteVisit>.averageDurationFor(predicate: (SiteVisit) -> Boolean) =
+        filter(predicate).map(SiteVisit::duration).average()
+
+    fun readFirstLineFromFile(path: String): String {
+        BufferedReader(FileReader(path)).use { br -> return br.readLine() }
+    }
+
+    fun lookForAlice(people: List<SimplePerson>){
+        for (person in people) {
+            if (person.name == "Alice"){
+                println("Found!")
+                return
+            }
+        }
+        println("Alice isn't found")
+    }
+
+    fun lookForAlice2(people: List<SimplePerson>){
+        people.forEach {
+            if (it.name == "Alice") {
+                println("Found!")
+                return
+            }
+        }
+        println("Alice isn't found")
+    }
+
+    fun lookForAlice3(people: List<SimplePerson>) {
+        people.forEach {
+            if (it.name == "Alice") return@forEach
+        }
+        println("Alice might be somewhere")
+    }
+
+    fun lookForAlice4(people: List<SimplePerson>) {
+        people.forEach label@{
+            if (it.name == "Alice") return@label
+        }
+        println("Alice might be somewhere")
+    }
+
+    fun lookForAlice5(people: List<SimplePerson>) {
+        people.forEach(fun (person) {
+            if (person.name == "Alice") return
+            println("${person.name} is not Alice")
+        })
     }
 }
