@@ -28,6 +28,7 @@ import ru.arvalon.hellokotlin.book.ch5.MyPerson
 import ru.arvalon.hellokotlin.book.ch6.*
 import ru.arvalon.hellokotlin.book.ch7.*
 import ru.arvalon.hellokotlin.book.ch8.*
+import ru.arvalon.hellokotlin.book.ch9.*
 import ru.arvalon.hellokotlin.model.User
 import strings.join
 import strings.joinToString2
@@ -146,7 +147,9 @@ class MainActivity : AppCompatActivity() {
 
         //lazyInitialization()
 
-        highOrderFunctionsAndLambdasChapter8()
+        //highOrderFunctionsAndLambdasChapter8()
+
+        generics()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -1394,5 +1397,38 @@ class MainActivity : AppCompatActivity() {
             if (person.name == "Alice") return
             println("${person.name} is not Alice")
         })
+    }
+
+    private fun generics() {
+        printSeparator("generics")
+
+        val letters = ('a'..'z').toList()
+        println(letters.slice<Char>(0..2))
+        println(letters.slice(10..13))
+
+        println(listOf(1,2,3,4,5).penultimate)
+
+        println("onehalf = ${oneHalf(3)}")
+
+        println("max = ${genericMax("kotlin", "java")}")
+        println("max = ${genericMax("a", "b")}")
+
+        //println("max = ${max("kotlin", 3)}")
+
+        val helloWorld = StringBuilder("Hello World")
+        ensureTrailingPeriod(helloWorld)
+        println(helloWorld)
+
+        printCollectionSum(listOf(4,5,6))
+        //printCollectionSum(setOf(4,5,6)) // IllegalArgumentException: List is expected
+        //printCollectionSum(setOf("a","b","c")) //IllegalArgumentException: List is expected
+
+        printCollectionSum2(listOf(2,3,4))
+
+        println(isA<String>("abc"))
+        println(isA<String>(123))
+
+        val items = listOf("one", 2, "three")
+        println(items.filterIsInstance<String>())
     }
 }
