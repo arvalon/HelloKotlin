@@ -1430,5 +1430,29 @@ class MainActivity : AppCompatActivity() {
 
         val items = listOf("one", 2, "three")
         println(items.filterIsInstance<String>())
+
+        println("Happy New Year!")
+
+        val ints = mutableListOf(1,2,3)
+        val anyItem = mutableListOf<Any>()
+        copyData(ints, anyItem)
+        println(anyItem)
+
+        val ints2 = mutableListOf(1,2,3)
+        val anyItem2 = mutableListOf<Any>()
+        copyData2(ints2, anyItem2)
+        println(anyItem)
+    }
+
+    fun <T: R, R> copyData(source: MutableList<T>, destination: MutableList<R>){
+        for (item in source) {
+            destination.add(item)
+        }
+    }
+
+    fun <T> copyData2(source: MutableList<out T>, destination: MutableList<T>){
+        for (item in source){
+            destination.add(item)
+        }
     }
 }
