@@ -149,7 +149,11 @@ class MainActivity : AppCompatActivity() {
 
         //highOrderFunctionsAndLambdasChapter8()
 
-        generics()
+        //generics()
+
+        //reflection()
+
+        palindrome()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -1454,5 +1458,38 @@ class MainActivity : AppCompatActivity() {
         for (item in source){
             destination.add(item)
         }
+    }
+
+    private fun reflection(){
+        printSeparator("reflection")
+
+    }
+
+    private fun palindrome(){
+        printSeparator("palindrome")
+
+        val s1 = "A man, a plan, a canal: Panama"
+        val s2 = "race a car"
+        val s3 = " "
+        val s4 = "a"
+        val s5 = "aa"
+        val s6 = "aaa"
+        val s7 = "Казак"
+        val s8 = "А роза упала на лапу Азора"
+        val s9 = "Do greese see God"
+        val s10 = "Madam, I'm Adam"
+
+        val myList = arrayListOf(s1,s2,s3,s4,s5,s6,s7,s8,s9,s10)
+
+        for (s in myList) {
+            println("----------------------------------------------------")
+            println(s)
+            println("result: "+checkPalindrome(s))
+        }
+    }
+
+    private fun checkPalindrome(s: String): Boolean {
+        s.forEachIndexed({index, char -> println("Index $index, Char: $char")})
+        return false
     }
 }
