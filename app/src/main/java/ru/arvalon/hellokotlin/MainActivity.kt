@@ -153,7 +153,9 @@ class MainActivity : AppCompatActivity() {
 
         //reflection()
 
-        palindrome()
+        //palindrome()
+
+        calcDissferentSpeed()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -1484,7 +1486,7 @@ class MainActivity : AppCompatActivity() {
         for (s in myList) {
             println("----------------------------------------------------")
             println(s)
-            println("result: "+checkPalindrome(s))
+            Log.d(TAG, "result for: "+s+": "+checkPalindrome(s))
         }
     }
 
@@ -1492,4 +1494,24 @@ class MainActivity : AppCompatActivity() {
         s.forEachIndexed({index, char -> println("Index $index, Char: $char")})
         return false
     }
+
+    fun calcDissferentSpeed(){
+
+        val humanSpeed = speed(10.0)
+        val flySpeed = speed(1000.5,800.43)
+
+        Log.d(TAG, "Human speed: "+humanSpeed)
+        Log.d(TAG, "Aeroplane speed: "+flySpeed)
+
+        //val marafomHuman1Speed = marapfoneSpeed(5.0)
+        val marafonHuman2Speed = marapfoneSpeed(time = 11.0)
+
+        Log.d(TAG, "marafonHuman2 Speed: "+marafonHuman2Speed)
+    }
+
+    /** функция с дефолтным аргументом */
+    fun speed(distance: Double, time: Double = 2.0) = distance/time
+
+    /** ещё функция с дефолтным аргументом с демонстрацией вызова именованного параметра */
+    fun marapfoneSpeed(dispance: Double = 42.125, time: Double) = dispance/time
 }
